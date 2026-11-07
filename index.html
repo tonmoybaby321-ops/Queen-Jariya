@@ -1,1 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Jariya</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;font-family:Georgia,serif;color:white;text-align:center;
+ background:linear-gradient(135deg,#170b35,#642b83,#d45b9b);
+ min-height:100vh;overflow-x:hidden
+}
+.page{display:none;min-height:100vh;padding:35px 18px 75px;
+ align-items:center;justify-content:center;flex-direction:column}
+.page.active{display:flex;animation:fade .8s}
+@keyframes fade{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+h1{font-size:clamp(30px,8vw,48px);text-shadow:0 5px 15px #ff73c9}
+h2{color:#ffd8f1}
+p{line-height:1.8;font-size:17px}
+button{
+ border:0;border-radius:30px;padding:14px 25px;margin:10px;
+ background:linear-gradient(135deg,#ff80c8,#a65cff);
+ color:white;font-size:17px;font-weight:bold;cursor:pointer;
+ box-shadow:0 6px 18px #1b092f;touch-action:manipulation
+}
+button:disabled{opacity:.5;cursor:not-allowed}
+.small{font-size:14px;color:#ffe0f4}
+.card{background:#ffffff18;border:1px solid #ffffff55;
+ border-radius:24px;padding:24px;max-width:540px;width:100%;
+ box-shadow:0 10px 35px #170b3580;backdrop-filter:blur(8px)}
+.balloons{font-size:38px;animation:float 2s infinite alternate}
+@keyframes float{to{transform:translateY(-18px)}}
+.threeD{
+ font-size:clamp(34px,9vw,58px);font-weight:bold;
+ color:#ffe1f5;text-shadow:2px 3px #d83e9b,5px 7px #70245e,8px 10px 18px #16051f;
+ animation:pop 1.5s infinite alternate
+}
+@keyframes pop{to{transform:rotateX(12deg) scale(1.06)}}
+.cake{position:relative;width:280px;height:245px;margin:25px auto 15px}
+.plate{position:absolute;bottom:10px;left:0;width:280px;height:28px;
+ border-radius:50%;background:linear-gradient(#fff,#d5a5df);box-shadow:0 8px 15px #170b35}
+.tier{position:absolute;left:25px;width:230px;height:75px;
+ border-radius:15px 15px 25px 25px;background:linear-gradient(90deg,#e94d9e,#ffb0d8,#d83d93);
+ box-shadow:inset 0 -12px 0 #b82c7c,0 8px 12px #290d36}
+.tier.one{bottom:30px}
+.tier.two{bottom:98px;left:55px;width:170px;height:65px;
+ background:linear-gradient(90deg,#a65cff,#e3aaff,#9a48d8);
+ box-shadow:inset 0 -10px 0 #7832b0,0 7px 12px #290d36}
+.tier.two:before{content:"";position:absolute;top:0;left:0;width:100%;height:17px;
+ border-radius:15px;background:#ffe0f5}
+.candles{position:absolute;top:4px;left:0;width:100%;
+ display:flex;justify-content:center;gap:7px;flex-wrap:wrap;padding:0 30px}
+.candle{width:9px;height:40px;border-radius:5px;
+ background:repeating-linear-gradient(0deg,#fff 0 7px,#ff75bd 7px 14px);
+ position:relative;transition:.5s}
+.flame{position:absolute;width:13px;height:19px;top:-19px;left:-2px;
+ background:radial-gradient(circle at 50% 70%,#fff 0 15%,#ffe66d 30%,#ff832e 70%);
+ border-radius:50% 50% 45% 45%;animation:flicker .3s infinite alternate}
+@keyframes flicker{to{transform:scale(.75) rotate(8deg)}}
+.candle.off .flame{display:none}
+.smoke{display:none}
+.cake.cut{animation:cutCake 1.5s forwards}
+@keyframes cutCake{50%{transform:rotate(-8deg) scale(.95)}100%{transform:rotate(3deg) scale(.9)}}
+.quiz-option{display:block;width:100%;margin:9px 0}
+#quizResult{min-height:45px;color:#ffe2f4;font-weight:bold}
+.letter{text-align:left;white-space:pre-line}
+footer{position:fixed;bottom:9px;left:0;width:100%;font-size:12px;color:#ffe0f4}
+.confetti{position:fixed;top:-20px;animation:fall 4s linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
 
+<section class="page active" id="p1">
+ <div class="balloons">🎈🎀🎈</div>
+ <h1>Welcome To A Special Day!</h1>
+ <div class="card">
+  <h2>Someone Special Is Waiting... 💗</h2>
+  <p>A little surprise has been made just for you.</p>
+  <div class="threeD">JARIYA 🌸</div>
+  <button onclick="go(2)">Let's Go ✨</button>
+ </div>
+</section>
+
+<section class="page" id="p2">
+ <div class="balloons">🎉🎊🎉</div>
+ <div class="threeD">HAPPY BIRTHDAY</div>
+ <h1>JARIYA 💗</h1>
+ <p>15th Birthday Celebration 🎂</p>
+ <p>Today is all about you!</p>
+ <button onclick="go(3)">Next ➜</button>
+</section>
+
+<section class="page" id="p3">
+ <h1>Make A Wish! ✨</h1>
+ <div class="card">
+  <h2>Your Birthday Cake 🎂</h2>
+  <div class="cake" id="cake">
+   <div class="candles" id="candles"></div>
+   <div class="tier two"></div>
+   <div class="tier one"></div>
+   <div class="plate"></div>
+  </div>
+  <p id="candleText">Close your eyes and make a wish! 💗</p>
+  <button id="wishBtn" onclick="blowCandles()">Make a Wish ✨</button>
+  <button id="cakeNext" onclick="go(4)" disabled>Next ➜</button>
+ </div>
+</section>
+
+<section class="page" id="p4">
+ <h1>Let's Cut The Cake! 🎂</h1>
+ <div class="card">
+  <div class="cake" id="cutCake">
+   <div class="tier two"></div>
+   <div class="tier one"></div>
+   <div class="plate"></div>
+  </div>
+  <p id="cutText">Ready for the birthday cake?</p>
+  <button id="cutBtn" onclick="cutCake()">Cut the Cake 🔪</button>
+  <button id="cutNext" onclick="go(5)" disabled>Next ➜</button>
+ </div>
+</section>
+
+<section class="page" id="p5">
+ <div class="balloons">💗🌸💗</div>
+ <h1>Special Birthday Wish</h1>
+ <div class="card letter">
+Many many happy Birthday and Returns of the Day 🎂
+15 bochore pa rakhar jonno onek onek shubhechha! 🌸
+
+Apnar jiboner Notun ekta bochor, notun kichu golpo ar notun kichu paglami shuru🙂
+
+Apnar mukher hashi jeno kokhono hariye na jay.😊
+
+Allah jeno apnar jiboner all dream complete kore dey 😊🌸
+
+Ar ha 15 hoyechen bole abar nijeke onek boro vabte shuru korben na karon apni agey theke buri🙂🙊
+
+And last.........
+
+🎀 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 🎀 🎂 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 🎂 💗 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 💗 🌸 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 🌸 ✨ 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 ✨ 🥳 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 🥳 👑 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 👑 🦋 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 🦋 💝 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 💝 🎉 𝑯𝒂𝒑𝒑𝒚 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚 🎉
+
+🎂 𝑯𝒂𝒑𝒑𝒚 𝟏𝟓𝒕𝒉 𝑩𝒊𝒓𝒕𝒉𝒅𝒂𝒚, 𝑨𝒑𝒖! 🥳💗
+ </div>
+ <button onclick="go(6)">Funny Quiz ➜</button>
+</section>
+
+<section class="page" id="p6">
+ <h1>Funny Birthday Quiz 😂</h1>
+ <div class="card">
+  <h2 id="question">1. Birthday te sobcheye important ki?</h2>
+  <div id="options">
+   <button class="quiz-option" onclick="answer(0)">🎂 Cake</button>
+   <button class="quiz-option" onclick="answer(1)">🎁 Gift</button>
+   <button class="quiz-option" onclick="answer(2)">😴 Ghum</button>
+  </div>
+  <p id="quizResult"></p>
+  <button id="quizNext" onclick="nextQuestion()" style="display:none">Next Question ➜</button>
+  <h2 id="final" style="display:none">You Are The Birthday Queen! 👑💗</h2>
+ </div>
+ <p>A SPECIAL GIFT FROM TONMOY 🎁</p>
+</section>
+
+<footer>A SPECIAL GIFT FROM TONMOY 🎁</footer>
+
+<script>
+function go(n){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById('p'+n).classList.add('active');
+ window.scrollTo(0,0);
+ confetti();
+}
+function confetti(){
+ const emojis=['🎉','💗','✨','🌸','🎊'];
+ for(let i=0;i<18;i++){
+  let e=document.createElement('div');
+  e.className='confetti';
+  e.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  e.style.left=Math.random()*100+'vw';
+  e.style.animationDelay=Math.random()*1.5+'s';
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),5000);
+ }
+}
+const candleBox=document.getElementById('candles');
+for(let i=0;i<15;i++){
+ let c=document.createElement('div');
+ c.className='candle';
+ c.innerHTML='<span class="flame"></span>';
+ candleBox.appendChild(c);
+}
+function blowCandles(){
+ document.querySelectorAll('.candle').forEach((c,i)=>{
+  setTimeout(()=>c.classList.add('off'),i*90);
+ });
+ document.getElementById('wishBtn').disabled=true;
+ document.getElementById('candleText').textContent='Your wish is on its way! 💗✨';
+ setTimeout(()=>{
+  document.getElementById('candleText').textContent='All candles are out! Happy Birthday! 🎉';
+  document.getElementById('cakeNext').disabled=false;
+  confetti();
+ },1600);
+}
+function cutCake(){
+ document.getElementById('cutCake').classList.add('cut');
+ document.getElementById('cutText').textContent='Yay! Cake has been cut! Enjoy! 🎂💗';
+ document.getElementById('cutBtn').disabled=true;
+ document.getElementById('cutNext').disabled=false;
+ confetti();
+}
+const questions=[
+ {q:'1. Birthday te sobcheye important ki?',o:['🎂 Cake','🎁 Gift','😴 Ghum'],a:'Cake chara birthday? Impossible! 😂'},
+ {q:'2. 15 bochore pa diye ki bolben?',o:['Ami boro hoye gechi 😎','Ami ekhono choto 🙈','Aro birthday chai 🎂'],a:'Boro hoyechen, kintu dushtumi ekhono baki! 🤣'},
+ {q:'3. Cake cut korar por ki korben?',o:['Nijey khabo 😋','Sobai ke debo 💗','Abar cake katbo 😂'],a:'Cake er jonno sobai ready! 😆'},
+ {q:'4. Birthday te sobcheye beshi ki chan?',o:['Happiness 🌸','Gift 🎁','Holiday 😴'],a:'Allah apnar sob bhalo iccha puron korun! 💗'},
+ {q:'5. Notun responsibility ki?',o:['Cake guard kora 🎂','Treat dewa 😂','Dushtumi kora 🙊'],a:'Treat kintu baki roye gelo! 😂'}
+];
+let qi=0;
+function answer(i){
+ document.getElementById('quizResult').textContent=questions[qi].a;
+ document.querySelectorAll('#options button').forEach(b=>b.disabled=true);
+ document.getElementById('quizNext').style.display='inline-block';
+}
+function nextQuestion(){
+ qi++;
+ if(qi>=questions.length){
+  document.getElementById('question').style.display='none';
+  document.getElementById('options').style.display='none';
+  document.getElementById('quizResult').textContent='Quiz completed! 🥳';
+  document.getElementById('quizNext').style.display='none';
+  document.getElementById('final').style.display='block';
+  confetti();return;
+ }
+ document.getElementById('question').textContent=questions[qi].q;
+ document.getElementById('options').innerHTML=questions[qi].o.map((x,i)=>
+  '<button class="quiz-option" onclick="answer('+i+')">'+x+'</button>').join('');
+ document.getElementById('quizResult').textContent='';
+ document.getElementById('quizNext').style.display='none';
+}
+</script>
+</body>
+  </html>
